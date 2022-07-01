@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Expense_Tracking.Views.NewExpense">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text ="Name of Expense :"/>
+            <Entry x:Name="ExpName"  Placeholder="Name of Expense" MinimumHeightRequest ="10" MinimumWidthRequest="10"/>
+            <Label Text="Expense Date:" />
+            <DatePicker x:Name="ExpDate" MinimumHeightRequest="25" HorizontalOptions="Start"  Margin="42,26,0,0" 
+VerticalOptions="Start" MinimumWidthRequest="115"/>
+            <Label Text="Expense Amount:" />
+            <Entry x:Name="ExpAmount"   Placeholder="Expense Amount" />
+            <Label Text="Expense Category:" />
+            <Picker x:Name="ExpCategory">
+                <Picker.Items>
+                    <x:String>Travel</x:String>
+                    <x:String>Food</x:String>
+                    <x:String>Education</x:String>
+                    <x:String>HomeCare</x:String>
+                    <x:String>Misc.</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Save"  x:Name="SaveExpense" Clicked="SaveExpense_Clicked"/>
+                <Button Text="Cancel" x:Name="CancelExpense"  Grid.Column="1" Clicked="CancelExpense_Clicked"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
