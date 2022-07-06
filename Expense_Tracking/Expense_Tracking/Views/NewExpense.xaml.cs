@@ -42,7 +42,7 @@ namespace Expense_Tracking.Views
                 expenselist = (List<Expense>)reader.Deserialize(Expensefile1);
                 Expensefile1.Close();
             }
-            Stream Expensefile = new FileStream(path, FileMode.Open,FileAccess.Write);
+            Stream Expensefile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
             XmlSerializer writer = new XmlSerializer(typeof(List<Expense>));
             expenselist.Add(expense);
             writer.Serialize(Expensefile, expenselist);

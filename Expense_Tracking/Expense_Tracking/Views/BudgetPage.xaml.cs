@@ -127,9 +127,12 @@ namespace Expense_Tracking.Views
             BudgetInfo.Text = BudgetInfo.Text + "Add More:";
       }
 
-        private void CategoryListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void CategoryListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            await Navigation.PushAsync(new CategoryDetail
+            {
+                BindingContext = (Categories)e.SelectedItem
+            });
         }
 
         
