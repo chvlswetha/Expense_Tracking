@@ -11,7 +11,7 @@
             <ListView x:Name="CategoryDetailListView"
                           Margin="20"
                           Grid.Row="1"
-                      ItemsSource="{Binding expenselist}">
+                      ItemsSource="{Binding filteredExpanse}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding ExpName}" Detail="{Binding ExpDate}"/>

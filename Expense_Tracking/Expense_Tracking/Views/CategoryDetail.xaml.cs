@@ -32,8 +32,9 @@ namespace Expense_Tracking.Views
                 expenselist = (ObservableCollection<Expense>)reader.Deserialize(Expensefile1);
                 Expensefile1.Close();
             }
-            expenselist.Where(x => x.ExpCategory == cate.CategoryName);
-            CategoryDetailListView.ItemsSource = expenselist;
+            //it is not working.
+            var filteredExpanse = expenselist.Where(x => x.ExpCategory == cate.CategoryName);
+            CategoryDetailListView.ItemsSource = filteredExpanse;
         }
 
     }
