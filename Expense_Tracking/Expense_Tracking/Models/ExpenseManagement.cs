@@ -16,23 +16,20 @@ namespace Expense_Tracking.Models
                   Environment.SpecialFolder.LocalApplicationData) + "//Expense.xml";
             if (File.Exists(path))
             {
-                Stream Expensefile1 = new FileStream(path, FileMode.Open);
+                Stream expensefile1 = new FileStream(path, FileMode.Open);
                 XmlSerializer reader = new XmlSerializer(typeof(ObservableCollection<Expense>));
                 try
                 {
-                    allExpenses = (ObservableCollection<Expense>)reader.Deserialize(Expensefile1);
-                    throw new Exception("test ex");
+                    allExpenses = (ObservableCollection<Expense>)reader.Deserialize(expensefile1);
                 }
                 catch(Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[LOG]Get all expenses failed, ex:{ex.ToString()}");
-                    System.Diagnostics.Debug.WriteLine($"[LOG]Stack trace, ex:{ex.StackTrace}");
-                    System.Diagnostics.Debug.WriteLine($"[LOG]iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii*");
+                    System.Diagnostics.Debug.WriteLine($"[LOG]Get all expenses failed, ex:{ex}");
                     throw ex;
                 }
                 finally
                 {
-                    Expensefile1.Close();
+                    expensefile1.Close();
                 }
                 
             }
@@ -65,5 +62,35 @@ namespace Expense_Tracking.Models
             }
             return categories;
         }
+
+        public static int TotalExpense()
+        {
+            var allExpenses = GetAllExpense();
+            int totalExpense = 0;
+            for(int i = 0; i < allExpenses.Count; i++)
+            {
+                totalExpense += Int32.Parse(allExpenses[i].ExpAmount);
+            }
+            return totalExpense;
+        }
+        public static int TotalBudget()
+        {
+            var path = Path.Combine(Environment.GetFolderPath(
+                                                 Environment.SpecialFolder.LocalApplicationData),
+                                                                               "budget.txt");
+            int totalBudget = 0;
+            if (File.Exists(path))
+            {
+                totalBudget = Int32.Parse(File.ReadAllText(path));
+            }
+            return totalBudget;
+        }
+        public static int CurrentBalance()
+        {
+            int currentBalance = 0;
+            currentBalance = TotalBudget() - TotalExpense();
+            return currentBalance;
+        }
+       
     }
 }
