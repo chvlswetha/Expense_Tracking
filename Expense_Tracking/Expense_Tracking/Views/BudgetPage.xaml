@@ -24,19 +24,23 @@
                 <Button Grid.Row ="0"  Grid.Column="0"  Text="Save"  x:Name="SaveButton" Clicked="OnSaveButtonClicked"/>
                 <Button  Grid.Row ="0" Grid.Column="1"  Text="Delete" x:Name="DeleteButton" Clicked="OnDeleteButtonClicked"/>
                 <Button  Grid.Row ="1" Grid.Column="0"  Text="Add More Budget" x:Name="AddMoreBudget" Clicked="AddMoreBudget_Clicked"/>
+            </Grid>
+            <Grid Margin="0,20,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <ListView x:Name="CategoryListView"
                           Margin="20"
                           ItemSelected="CategoryListView_ItemSelected"
-                          Grid.Row="1">
+                          Grid.Row="0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:Categories">
                             <TextCell Text="{Binding CategoryName}" Detail="{Binding CategoryAmount}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                          
-
-           </Grid>
+            </Grid>
             
         </StackLayout>
     </ContentPage.Content>
