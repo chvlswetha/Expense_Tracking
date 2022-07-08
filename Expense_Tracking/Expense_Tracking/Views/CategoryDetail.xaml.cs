@@ -33,10 +33,12 @@ namespace Expense_Tracking.Views
                 Expensefile1.Close();
             }
             var filteredExpanse = expenselist.Where(x => x.ExpCategory == cate.CategoryName);
-            foreach(Expense expense in filteredExpanse)
+            foreach (Expense expense in filteredExpanse)
             {
-                expense.ExpDate = expense.ExpDate + " " + expense.ExpName + expense.ExpAmount;
+                string[] splitText = expense.ExpDate.Split(new char[] { ' ' });
+                expense.ExpDate = splitText[0];
             }
+            ExpenseDetail.Text = $"{cate.CategoryName} Expesnse Detail";
             CategoryDetailListView.ItemsSource = filteredExpanse;
         }
 
