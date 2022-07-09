@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Expense_Tracking.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Xml.Serialization;
 using System.IO;
 
 namespace Expense_Tracking.Views
@@ -20,6 +21,7 @@ namespace Expense_Tracking.Views
         }
 
         int totalbudget = 0;
+        int totalExpense = 0;
 
         protected override void OnAppearing()
         {
@@ -27,6 +29,43 @@ namespace Expense_Tracking.Views
             budgetfile_exs.FileName = Path.Combine(Environment.GetFolderPath(
                                  Environment.SpecialFolder.LocalApplicationData),
                                                                "budget.txt");
+
+            List<Expense> expenselist = new List<Expense>();
+            List<Categories> categories = new List<Categories>();
+            Dictionary<string, int> d = new Dictionary<string, int>();
+            var path = Environment.GetFolderPath(
+                  Environment.SpecialFolder.LocalApplicationData) + "//Expense.xml";
+            if (File.Exists(path))
+            {
+                Stream Expensefile1 = new FileStream(path, FileMode.Open);
+                XmlSerializer reader = new XmlSerializer(typeof(List<Expense>));
+                expenselist = (List<Expense>)reader.Deserialize(Expensefile1);
+                Expensefile1.Close();
+                foreach (var expense in expenselist)
+                {
+                    if (d.ContainsKey(expense.ExpCategory))
+                    {
+                        d[expense.ExpCategory] += Int32.Parse(expense.ExpAmount);
+                
+                    }
+                    else
+                    {
+                        d.Add(expense.ExpCategory, Int32.Parse(expense.ExpAmount));
+                    }
+                    totalExpense += Int32.Parse(expense.ExpAmount);
+                    //d:key => category value => sum of amounts
+                }
+                foreach (var cate in d)
+                {
+                    categories.Add(new Categories
+                    {
+                        CategoryName = cate.Key,
+                        CategoryAmount = cate.Value,
+                        Image = cate.Key.ToLower() + ".png"
+                    }); 
+                }
+            }
+            CategoryListView.ItemsSource = categories;
 
             if (File.Exists(budgetfile_exs.FileName))
             {
@@ -37,7 +76,7 @@ namespace Expense_Tracking.Views
                 DeleteButton.IsVisible = false;
                 editor.IsVisible = false;
                 BudgetInfo.Text = BudgetInfo.Text + "\n";
-                BudgetInfo.Text = BudgetInfo.Text + "Total Expense is: 0";                
+                BudgetInfo.Text = BudgetInfo.Text + "Total Expense is: " + totalExpense;
             }
         }
         private async void OnSaveButtonClicked(object sender, EventArgs e)
@@ -63,7 +102,7 @@ namespace Expense_Tracking.Views
 
             }
             await Task.Delay(5000);
-            //await Navigation.PopModalAsync();
+            await Navigation.PopModalAsync();
         }
         private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
@@ -90,9 +129,12 @@ namespace Expense_Tracking.Views
             BudgetInfo.Text = BudgetInfo.Text + "Add More:";
       }
 
-        private void Categories_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void CategoryListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            await Navigation.PushAsync(new CategoryDetail
+            {
+                BindingContext = (Categories)e.SelectedItem
+            });
         }
     }
 }

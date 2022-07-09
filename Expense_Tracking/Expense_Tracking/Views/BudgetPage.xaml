@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model ="clr-namespace:Expense_Tracking.Models"
              x:Class="Expense_Tracking.Views.BudgetPage">
     <ContentPage.Content>
         <StackLayout>
@@ -12,6 +13,8 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -22,9 +25,25 @@
                 <Button Grid.Row ="0"  Grid.Column="0"  Text="Save"  x:Name="SaveButton" Clicked="OnSaveButtonClicked"/>
                 <Button  Grid.Row ="0" Grid.Column="1"  Text="Delete" x:Name="DeleteButton" Clicked="OnDeleteButtonClicked"/>
                 <Button  Grid.Row ="1" Grid.Column="0"  Text="Add More Budget" x:Name="AddMoreBudget" Clicked="AddMoreBudget_Clicked"/>
+                <Label Grid.Row ="2" Grid.Column="0"   Text="Budget Categories"  HorizontalTextAlignment ="Center" FontAttributes="Bold" />
+                <ListView x:Name ="CategoryListView"   Grid.Row ="3"   Margin = "20"
+                      ItemSelected="CategoryListView_ItemSelected">
 
-           </Grid>
-            
+                <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Categories">
+                            <ViewCell>
+                                <Grid>                                    
+                                   <Image Grid.Column="0" Source="{Binding Image}" HeightRequest="50" WidthRequest="30"/>
+                                   <Label Grid.Column="1"  Text="{Binding CategoryName}" />
+                                   <Label Grid.Column="2"  Text="{Binding CategoryAmount}" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>                         
+                    </ListView.ItemTemplate>                    
+                </ListView>
+              
+                        
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

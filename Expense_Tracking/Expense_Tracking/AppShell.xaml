@@ -32,8 +32,6 @@
     <TabBar>
         <ShellContent Title="About" x:Name ="Aboutpage"  Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:BudgetPage}" />
         <ShellContent x:Name="AddButton" Title ="Add" Icon="icon_about.png" Route="NewExpense" ContentTemplate="{DataTemplate local:NewExpense}" />
-        <ShellContent x:Name="List" Title ="Add" Icon="icon_about.png" Route="ToDoPage" ContentTemplate="{DataTemplate local:NewExpense}" />
-        
     </TabBar>
 
     <!--

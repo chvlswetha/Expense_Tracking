@@ -7,10 +7,20 @@
 
   <ItemGroup>
     <None Remove="education.png" />
+    <None Remove="homecare.png" />
+    <None Remove="Resources\drawable\education.png" />
+    <None Remove="Resources\drawable\homecare.png" />
+    <None Remove="Resources\drawable\travel.png" />
+    <None Remove="travel.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="education.png" />
+    <Content Include="homecare.png" />
+    <EmbeddedResource Include="Resources\drawable\education.png" />
+    <EmbeddedResource Include="Resources\drawable\homecare.png" />
+    <EmbeddedResource Include="Resources\drawable\travel.png" />
+    <Content Include="travel.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +30,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Views\BudgetPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CategoryDetail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewExpense.xaml">

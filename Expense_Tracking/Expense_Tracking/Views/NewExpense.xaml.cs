@@ -20,7 +20,7 @@ namespace Expense_Tracking.Views
             InitializeComponent();
         }
 
-        private void SaveExpense_Clicked(object sender, EventArgs e)
+        private async void SaveExpense_Clicked(object sender, EventArgs e)
         {
             var expense = (Expense)BindingContext;
             List<Expense> expenselist = new List<Expense>();
@@ -42,11 +42,17 @@ namespace Expense_Tracking.Views
                 expenselist = (List<Expense>)reader.Deserialize(Expensefile1);
                 Expensefile1.Close();
             }
-            Stream Expensefile = new FileStream(path, FileMode.Open,FileAccess.Write);
+
+            Stream Expensefile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                 
             XmlSerializer writer = new XmlSerializer(typeof(List<Expense>));
             expenselist.Add(expense);
             writer.Serialize(Expensefile, expenselist);
             Expensefile.Close();
+
+            SaveExpense.IsEnabled = false;
+            await Task.Delay(5000);
+            await Navigation.PopModalAsync();
         }
 
         private void CancelExpense_Clicked(object sender, EventArgs e)

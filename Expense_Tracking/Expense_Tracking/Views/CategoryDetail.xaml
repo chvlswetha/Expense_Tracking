@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Expense_Tracking.Views.CategoryDetail">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name ="expensetype" 
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" 
+                   FontAttributes="Bold"/>
+
+            <Label  x:Name="Date"   Text="Expense Date"   FontAttributes="Bold" />
+            <Label  Grid.Column="1"   Text="Expense Name"  FontAttributes="Bold" />
+            <Label  Grid.Column="2"   Text="Expense Amount"   FontAttributes="Bold" />
+
+            <ListView x:Name="CategoryDetailListView"
+                          Margin="20"
+                          ItemsSource="{Binding filteredExpanse}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Label Grid.Column="0"  Text="{Binding ExpDate}" />
+                                <Label Grid.Column="1"  Text="{Binding ExpName}" />
+                                <Label Grid.Column="2"  Text="{Binding ExpAmount}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+           </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
