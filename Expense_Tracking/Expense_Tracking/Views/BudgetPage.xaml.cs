@@ -61,7 +61,7 @@ namespace Expense_Tracking.Views
                     {
                         d.Add(expense.ExpCategory, Int32.Parse(expense.ExpAmount));
                     }
-                    totalExpense += Int32.Parse(expense.ExpAmount);
+                   // totalExpense += Int32.Parse(expense.ExpAmount);
                     //d:key => category value => sum of amounts
                 }
                 foreach (var cate in d)
@@ -92,7 +92,7 @@ namespace Expense_Tracking.Views
             //display aggregated category view
             var allExpenses = ExpenseManagement.GetAllExpense();
             System.Diagnostics.Debug.WriteLine("test log");
-            var categories = ExpenseManagement.CategoryAmount(allExpenses);
+            //var categories = ExpenseManagement.CategoryAmount(allExpenses);
             CategoryListView.ItemsSource = categories;
         }
         private async void OnSaveButtonClicked(object sender, EventArgs e)

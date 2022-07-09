@@ -23,7 +23,7 @@ namespace Expense_Tracking.Views
         protected override void OnAppearing()
         {
             var cate = (Categories)BindingContext;
-            expensetype.Text = cate.CategoryName + " Expense";
+            //expensetype.Text = cate.CategoryName + " Expense";
             string path = Environment.GetFolderPath(
                     Environment.SpecialFolder.LocalApplicationData) + "//Expense.xml";
             if (File.Exists(path))
