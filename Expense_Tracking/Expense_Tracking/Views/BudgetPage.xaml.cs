@@ -8,6 +8,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
+using System.Collections.ObjectModel;
 
 namespace Expense_Tracking.Views
 {
@@ -16,16 +18,23 @@ namespace Expense_Tracking.Views
     {
         public BudgetPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            BudgetInfo.Text = $"Total Budget : {ExpenseManagement.TotalBudget().ToString()}" + "\n"
+                + $"Total Expense is: {ExpenseManagement.TotalExpense().ToString()}" + "\n"
+                + $"Current Balance is: {ExpenseManagement.CurrentBalance().ToString()}" + "\n";
+            SaveButton.IsVisible = false;
+            DeleteButton.IsVisible = false;
+            editor.IsVisible = false;
 
         }
 
-        int totalbudget = 0;
-        int totalExpense = 0;
+        int totalBudget = 0;
+
+        
 
         protected override void OnAppearing()
         {
-            var budgetfile_exs = (Budget)BindingContext;
+            var budgetfile_exs = new Budget();
             budgetfile_exs.FileName = Path.Combine(Environment.GetFolderPath(
                                  Environment.SpecialFolder.LocalApplicationData),
                                                                "budget.txt");
@@ -69,65 +78,82 @@ namespace Expense_Tracking.Views
 
             if (File.Exists(budgetfile_exs.FileName))
             {
+                
                 budgetfile_exs.Text = File.ReadAllText(budgetfile_exs.FileName);
                 budgetfile_exs.Date = File.GetCreationTime(budgetfile_exs.FileName);
-                BudgetInfo.Text = "Your Budget set for this month is:" + budgetfile_exs.Text + "\n";
+                BudgetInfo.Text = $"Total Budget : {ExpenseManagement.TotalBudget().ToString()}" + "\n"
+               + $"Total Expense is: {ExpenseManagement.TotalExpense().ToString()}" + "\n"
+                + $"Current Balance is: {ExpenseManagement.CurrentBalance().ToString()}" + "\n";
                 SaveButton.IsVisible = false;
                 DeleteButton.IsVisible = false;
                 editor.IsVisible = false;
-                BudgetInfo.Text = BudgetInfo.Text + "\n";
-                BudgetInfo.Text = BudgetInfo.Text + "Total Expense is: " + totalExpense;
             }
+
+            //display aggregated category view
+            var allExpenses = ExpenseManagement.GetAllExpense();
+            System.Diagnostics.Debug.WriteLine("test log");
+            var categories = ExpenseManagement.CategoryAmount(allExpenses);
+            CategoryListView.ItemsSource = categories;
         }
         private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
-            var budget = (Budget)BindingContext;
+            var budget = new Budget();
+            
             if (!System.Text.RegularExpressions.Regex.IsMatch(editor.Text, "^[0-9]"))
             {
                 await DisplayAlert("Alert", "Enter Valid Budget Amount", "OK");
                 editor.Text = "";
+                return;
             }
             else
             {
                 budget.FileName = Path.Combine(Environment.GetFolderPath(
                                                  Environment.SpecialFolder.LocalApplicationData),
                                                                                "budget.txt");
-                if (!string.IsNullOrEmpty(budget.Text))
+                if (File.Exists(budget.FileName))
                 {
                     budget.Text = File.ReadAllText(budget.FileName);
-                    totalbudget += int.Parse(budget.Text);
+                    totalBudget += int.Parse(budget.Text);
                 }
-                totalbudget += int.Parse(editor.Text);
-                File.WriteAllText(budget.FileName, totalbudget.ToString());
-
-            }
+                totalBudget += int.Parse(editor.Text);
+                File.WriteAllText(budget.FileName, totalBudget.ToString());
+                totalBudget = 0;
+                SaveButton.IsVisible = false;
+                DeleteButton.IsVisible = false;
+                AddMoreBudget.IsVisible = true;
+                editor.Text = "";
+                editor.IsVisible = false;
+                BudgetInfo.Text = $"Total Budget : {ExpenseManagement.TotalBudget().ToString()}" + "\n"
+                    + $"Total Expense is: {ExpenseManagement.TotalExpense().ToString()}" + "\n"
+                     + $"Current Balance is: {ExpenseManagement.CurrentBalance().ToString()}" + "\n";
+            }                      
+            
             await Task.Delay(5000);
             await Navigation.PopModalAsync();
         }
         private async void OnDeleteButtonClicked(object sender, EventArgs e)
         {
+            editor.Text = "";
             await Task.Delay(5000);
-            await Navigation.PopModalAsync();
+            
         }
 
         private void AddMoreBudget_Clicked(object sender, EventArgs e)
         {
-
-            var budgetfile_exs = new Budget();
-            budgetfile_exs.FileName = Path.Combine(Environment.GetFolderPath(
-           Environment.SpecialFolder.LocalApplicationData),
-                     "budget.txt");
-            budgetfile_exs.Text = File.ReadAllText(budgetfile_exs.FileName);
-            budgetfile_exs.Date = File.GetCreationTime(budgetfile_exs.FileName);
-
-            BudgetInfo.Text = "Current Budget : " + budgetfile_exs.Text + "\n";
+            //var budgetfile_exs = (Budget)BindingContext;
+            //budgetfile_exs.FileName = Path.Combine(Environment.GetFolderPath(
+            //                     Environment.SpecialFolder.LocalApplicationData),
+            //                                                   "budget.txt");
+            //budgetfile_exs.Text = File.ReadAllText(budgetfile_exs.FileName);
+            //budgetfile_exs.Date = File.GetCreationTime(budgetfile_exs.FileName);
             SaveButton.IsVisible = true;
             DeleteButton.IsVisible = true;
+            AddMoreBudget.IsVisible = false;
             editor.IsVisible = true;
-            BudgetInfo.Text = BudgetInfo.Text + "\n";
-            BudgetInfo.Text = BudgetInfo.Text + "Total Expense is: 0" + "\n";
-            BudgetInfo.Text = BudgetInfo.Text + "Add More:";
-      }
+            BudgetInfo.Text = "Total Budget : " + $"{ExpenseManagement.TotalBudget().ToString()}" + "\n"
+               + $"Total Expense is: {ExpenseManagement.TotalExpense().ToString()}" + "\n"
+                + $"Current Balance is: {ExpenseManagement.CurrentBalance().ToString()}" + "\n";
+        }
 
         private async void CategoryListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -136,5 +162,7 @@ namespace Expense_Tracking.Views
                 BindingContext = (Categories)e.SelectedItem
             });
         }
+
+
     }
 }

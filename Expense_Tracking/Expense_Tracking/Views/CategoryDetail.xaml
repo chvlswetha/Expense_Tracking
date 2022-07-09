@@ -1,33 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Expense_Tracking.Models"
              x:Class="Expense_Tracking.Views.CategoryDetail">
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name ="expensetype" 
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" 
-                   FontAttributes="Bold"/>
-
-            <Label  x:Name="Date"   Text="Expense Date"   FontAttributes="Bold" />
-            <Label  Grid.Column="1"   Text="Expense Name"  FontAttributes="Bold" />
-            <Label  Grid.Column="2"   Text="Expense Amount"   FontAttributes="Bold" />
-
-            <ListView x:Name="CategoryDetailListView"
-                          Margin="20"
-                          ItemsSource="{Binding filteredExpanse}">
+            <Label Text="Expenses Details" FontSize="20"
+                   x:Name  ="ExpenseDetail"
+                   VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <ListView x:Name="CategoryDetailListView" Margin="20"  HorizontalOptions="StartAndExpand"                         
+                      ItemsSource="{Binding filteredExpanse}"
+                      HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
-                                <Label Grid.Column="0"  Text="{Binding ExpDate}" />
-                                <Label Grid.Column="1"  Text="{Binding ExpName}" />
-                                <Label Grid.Column="2"  Text="{Binding ExpAmount}" />
+                            <Grid Padding="10">
+                                <Frame CornerRadius="20" HasShadow="True">
+                                    <StackLayout Orientation="Vertical">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label VerticalOptions="Center" FontSize="15" Text="{Binding ExpName}"/>
+                                            <Label VerticalOptions="Center" HorizontalOptions="EndAndExpand" FontSize="20" Text="{Binding ExpAmount}"/>
+                                        </StackLayout>
+                                        <Label VerticalOptions="Center" FontSize="10" Text="{Binding ExpDate}"/>
+                                    </StackLayout>
+                                    
+                                </Frame>
+                                
                             </Grid>
                         </ViewCell>
+
+
+                        <!--<TextCell Text="{Binding ExpName}" Detail="{Binding ExpDate}"/>-->
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-           </StackLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Expense_Tracking.Models;
+using Expense_Tracking.Views;
 
 namespace Expense_Tracking
 {
@@ -10,7 +11,8 @@ namespace Expense_Tracking
         public AppShell()
         {
             InitializeComponent();
-            Aboutpage.BindingContext = new Budget();
+            
+            Add.BindingContext = new Expense();
         }
 
     }

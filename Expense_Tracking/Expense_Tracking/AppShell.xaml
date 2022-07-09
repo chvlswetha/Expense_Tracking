@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Expense_Tracking.Views"
+       xmlns:model ="clr-namespace:Expense_Tracking.Models"
        Title="Expense_Tracking"
        x:Class="Expense_Tracking.AppShell">
 
@@ -30,8 +31,9 @@
     </Shell.Resources>
 
     <TabBar>
-        <ShellContent Title="About" x:Name ="Aboutpage"  Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:BudgetPage}" />
-        <ShellContent x:Name="AddButton" Title ="Add" Icon="icon_about.png" Route="NewExpense" ContentTemplate="{DataTemplate local:NewExpense}" />
+        <ShellContent Title="Home" x:Name ="Home"  Icon="icon_about.png" Route="AboutPage"  ContentTemplate="{DataTemplate local:BudgetPage}" />
+        <ShellContent x:Name="Add" Title ="Add" Icon="icon_about.png" Route="NewExpense" ContentTemplate="{DataTemplate local:NewExpense}" />
+        
     </TabBar>
 
     <!--

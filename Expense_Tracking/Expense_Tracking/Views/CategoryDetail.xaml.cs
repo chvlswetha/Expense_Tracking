@@ -34,7 +34,13 @@ namespace Expense_Tracking.Views
                 Expensefile1.Close();
             }
             var filteredExpanse = expenselist.Where(x => x.ExpCategory == cate.CategoryName);
-           CategoryDetailListView.ItemsSource = filteredExpanse;
+            foreach (Expense expense in filteredExpanse)
+            {
+                string[] splitText = expense.ExpDate.Split(new char[] { ' ' });
+                expense.ExpDate = splitText[0];
+            }
+            ExpenseDetail.Text = $"{cate.CategoryName} Expesnse Detail";
+            CategoryDetailListView.ItemsSource = filteredExpanse;
          
         }
 

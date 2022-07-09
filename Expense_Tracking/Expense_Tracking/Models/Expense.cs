@@ -10,5 +10,6 @@ namespace Expense_Tracking.Models
         public String ExpDate { get; set; }
         public String ExpAmount { get; set; }
         public String ExpCategory { get; set; }
+        
     }
 }
