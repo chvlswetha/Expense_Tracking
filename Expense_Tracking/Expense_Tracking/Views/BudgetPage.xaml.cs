@@ -70,11 +70,11 @@ namespace Expense_Tracking.Views
                     {
                         CategoryName = cate.Key,
                         CategoryAmount = cate.Value,
-                        Image = cate.Key.ToLower() + ".png"
-                    }); 
+                        Image = cate.Key.ToLower() + ".png",
+                        Percentage = (int)Math.Round((double)(100 * cate.Value)/ExpenseManagement.TotalExpense())
+                    });; 
                 }
             }
-            CategoryListView.ItemsSource = categories;
 
             if (File.Exists(budgetfile_exs.FileName))
             {
@@ -94,6 +94,8 @@ namespace Expense_Tracking.Views
             System.Diagnostics.Debug.WriteLine("test log");
             //var categories = ExpenseManagement.CategoryAmount(allExpenses);
             CategoryListView.ItemsSource = categories;
+            Analysis AnalysisPage = new Analysis();
+            AnalysisPage.BindingContext = categories;
         }
         private async void OnSaveButtonClicked(object sender, EventArgs e)
         {
