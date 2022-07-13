@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Expense_Tracking.Views.Analysis"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label x:Name="BudgetInfo" Text="Your Budget is not set. Please set the Budget for the month"/>
+
+
+            <forms:ChartView x:Name="chartViewPie" HeightRequest="200" />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
