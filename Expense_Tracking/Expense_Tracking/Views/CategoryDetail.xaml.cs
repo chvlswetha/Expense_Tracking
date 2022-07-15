@@ -36,13 +36,29 @@ namespace Expense_Tracking.Views
             var filteredExpanse = expenselist.Where(x => x.ExpCategory == cate.CategoryName);
             foreach (Expense expense in filteredExpanse)
             {
-                string[] splitText = expense.ExpDate.Split(new char[] { ' ' });
-                expense.ExpDate = splitText[0];
+                //string[] splitText = expense.ExpDate.Split(new char[] { ' ' });
+                //expense.ExpDate = splitText[0];
             }
             ExpenseDetail.Text = $"{cate.CategoryName} Expesnse Detail";
             CategoryDetailListView.ItemsSource = filteredExpanse;
          
         }
+
+        private async void EditButton_Clicked(object sender, EventArgs e)
+        {
+            Button b = (Button)sender;
+            Expense editExp = b.BindingContext as Expense;
+            await Navigation.PushAsync(new NewExpense
+            {
+                BindingContext = editExp,
+            });
+        }
+
+        private void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
+     
 
     }
 }
