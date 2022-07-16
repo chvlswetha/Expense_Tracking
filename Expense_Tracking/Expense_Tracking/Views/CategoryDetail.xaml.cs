@@ -56,9 +56,7 @@ namespace Expense_Tracking.Views
 
         private void DeleteButton_Clicked(object sender, EventArgs e)
         {
-
+           
         }
-     
-
     }
 }
