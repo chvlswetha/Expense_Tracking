@@ -37,7 +37,7 @@
                                    <Label Grid.Column="1"  Text="{Binding CategoryName}" />
                                    <Label Grid.Column="2"  Text="{Binding CategoryAmount}" />
 
-                                    <Label Grid.Column="3"  Text="{Binding Percentage}"/>
+                                    <Label Grid.Column="3"  Text="{Binding Percentage, StringFormat='\{0\}%'}"/>
                                   
                                    
                                     
