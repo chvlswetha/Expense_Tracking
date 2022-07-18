@@ -41,7 +41,7 @@ namespace Expense_Tracking.Views
                 //string[] splitText = expense.ExpDate.Split(new char[] { ' ' });
                 //expense.ExpDate = splitText[0];
             }
-            ExpenseDetail.Text = $"{cate.CategoryName} Expesnse Detail";
+            ExpenseDetail.Text = $"{cate.CategoryName} Expense Detail";
             CategoryDetailListView.ItemsSource = filteredExpanse;
          
         }
@@ -60,7 +60,6 @@ namespace Expense_Tracking.Views
         {
             Button b = (Button)sender;
             Expense deleExp = b.BindingContext as Expense;
-
 
             var path = Environment.GetFolderPath(
                   Environment.SpecialFolder.LocalApplicationData) + "//Expense.xml";

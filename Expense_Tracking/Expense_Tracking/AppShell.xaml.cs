@@ -12,8 +12,8 @@ namespace Expense_Tracking
         {
             InitializeComponent();
             
-            Add.BindingContext = new Expense();
-        }
+            Home.BindingContext = new Budget();
+         }
 
     }
 }

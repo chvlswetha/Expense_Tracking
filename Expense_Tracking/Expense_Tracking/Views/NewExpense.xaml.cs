@@ -29,18 +29,22 @@ namespace Expense_Tracking.Views
         {            
 
             var editExp = (Expense)BindingContext;
-            editExpToBeDelete = new Expense{ ExpName = editExp.ExpName, ExpAmount = editExp.ExpAmount, 
-                ExpCategory = editExp.ExpCategory, ExpDate = editExp.ExpDate};
 
-            if (editExp.ExpName != null)
+
+            if (editExp != null)
             {
-       
+
+                editExpToBeDelete = new Expense
+                {
+                    ExpName = editExp.ExpName,
+                    ExpAmount = editExp.ExpAmount,
+                    ExpCategory = editExp.ExpCategory,
+                    ExpDate = editExp.ExpDate
+                };
                 ExpName.Text = editExp.ExpName;
                 ExpDate.Date = DateTime.Parse(editExp.ExpDate);
                 ExpAmount.Text = editExp.ExpAmount;
-                ExpCategory.SelectedItem = editExp.ExpCategory;
-
-                
+                ExpCategory.SelectedItem = editExp.ExpCategory;                
             }
         }
 
@@ -53,42 +57,52 @@ namespace Expense_Tracking.Views
                   Environment.SpecialFolder.LocalApplicationData) + "//Expense.xml";
 
 
-            expense = new Expense();
-            expense.ExpName = ExpName.Text;
-            expense.ExpDate =   ExpDate.Date.ToString();
-            expense.ExpAmount = ExpAmount.Text;
-            expense.ExpCategory = ExpCategory.SelectedItem.ToString();
-
-            if (File.Exists(path))
+            if (String.IsNullOrWhiteSpace(ExpName.Text) ||
+                String.IsNullOrWhiteSpace(ExpDate.Date.ToString()) ||
+                String.IsNullOrWhiteSpace(ExpAmount.Text) ||
+                String.IsNullOrWhiteSpace(ExpCategory.SelectedItem.ToString()))
             {
-                Stream Expensefile1 = new FileStream(path, FileMode.Open);
-                XmlSerializer reader = new XmlSerializer(typeof(List<Expense>));
-                expenselist1 = (List<Expense>)reader.Deserialize(Expensefile1);
-                Expensefile1.Close();
+                DisplayAlert("Alert", "Enter Valid values", "OK");
+
             }
-            Stream Expensefile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
-            XmlSerializer writer = new XmlSerializer(typeof(List<Expense>));            
-            
-            expenselist1.Add(expense);
-            if (editExpToBeDelete.ExpName != null)
+            else
             {
-                var exs = expenselist1.Find(exp =>
-            (exp.ExpName == editExpToBeDelete.ExpName && exp.ExpAmount == editExpToBeDelete.ExpAmount
-            && exp.ExpDate == editExpToBeDelete.ExpDate && exp.ExpCategory == editExpToBeDelete.ExpCategory));
+                expense = new Expense();
+                expense.ExpName = ExpName.Text;
+                expense.ExpDate = ExpDate.Date.ToString();
+                expense.ExpAmount = ExpAmount.Text;
+                expense.ExpCategory = ExpCategory.SelectedItem.ToString();
 
-                expenselist1.Remove(exs);
+                if (File.Exists(path))
+                {
+                    Stream Expensefile1 = new FileStream(path, FileMode.Open);
+                    XmlSerializer reader = new XmlSerializer(typeof(List<Expense>));
+                    expenselist1 = (List<Expense>)reader.Deserialize(Expensefile1);
+                    Expensefile1.Close();
+                }
+                Stream Expensefile = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                XmlSerializer writer = new XmlSerializer(typeof(List<Expense>));
+
+                expenselist1.Add(expense);
+                if (editExpToBeDelete != null)
+                {
+                    var exs = expenselist1.Find(exp =>
+                (exp.ExpName == editExpToBeDelete.ExpName && exp.ExpAmount == editExpToBeDelete.ExpAmount
+                && exp.ExpDate == editExpToBeDelete.ExpDate && exp.ExpCategory == editExpToBeDelete.ExpCategory));
+
+                    expenselist1.Remove(exs);
+                }
+                writer.Serialize(Expensefile, expenselist1);
+                Expensefile.Close();
+
+                SaveExpense.IsEnabled = false;
+                await Navigation.PopToRootAsync();
             }
-            writer.Serialize(Expensefile, expenselist1);
-            Expensefile.Close();
-
-            SaveExpense.IsEnabled = false;
-            await Task.Delay(5000);
-            await Navigation.PopModalAsync();
         }
 
-        private void CancelExpense_Clicked(object sender, EventArgs e)
+        private async void CancelExpense_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PopToRootAsync();
         }
     }
 }

@@ -14,8 +14,7 @@ using Entry = Microcharts.ChartEntry;
 namespace Expense_Tracking.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Analysis : ContentPage
-    {
+    public partial class Analysis : ContentPage   {
 
 
         List<Entry> entries = new List<Entry>();
@@ -71,7 +70,7 @@ namespace Expense_Tracking.Views
                     ValueLabelColor = SkiaSharp.SKColor.Parse(color[i])
                 });
             }
-            chartViewPie.Chart = new PieChart { Entries = entries, HoleRadius = 0.3f };
+            chartViewPie.Chart = new PieChart { Entries = entries, HoleRadius = 0.3f, LabelTextSize = 40};
             BudgetInfo.Text = $"Total Budget : {ExpenseManagement.TotalBudget().ToString()}" + "\n"
                 + $"Total Expense is: {ExpenseManagement.TotalExpense().ToString()}" + "\n"
                 + $"Current Balance is: {ExpenseManagement.CurrentBalance().ToString()}" + "\n";

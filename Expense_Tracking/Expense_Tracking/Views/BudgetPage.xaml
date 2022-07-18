@@ -10,6 +10,7 @@
             <Editor x:Name="editor" 
                     Placeholder="Enter your Budget" 
                     HeightRequest="100"/>
+            <Label Text="Expense Exceeded Budget"  x:Name ="budgetover"  IsVisible="false" TextColor="Red" Font="Bold,20"  />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -24,31 +25,25 @@
 
                 <Button Grid.Row ="0"  Grid.Column="0"  Text="Save"  x:Name="SaveButton" Clicked="OnSaveButtonClicked"/>
                 <Button  Grid.Row ="0" Grid.Column="1"  Text="Delete" x:Name="DeleteButton" Clicked="OnDeleteButtonClicked"/>
-                <Button  Grid.Row ="1" Grid.Column="0"  Text="Add More Budget" x:Name="AddMoreBudget" Clicked="AddMoreBudget_Clicked"/>
-                <Label Grid.Row ="2" Grid.Column="0"   Text="Budget Categories"  HorizontalTextAlignment ="Center" FontAttributes="Bold" />
-                <ListView x:Name ="CategoryListView"   Grid.Row ="3"   Margin = "20"
-                      ItemSelected="CategoryListView_ItemSelected">
-
+                <Button  Grid.Row ="1" Grid.Column="0"  Text="Add More Budget" x:Name="AddMoreBudget" Clicked="AddMoreBudget_Clicked" />
+                <Button  Grid.Row ="1" Grid.Column="1"  Text="Add New Expense" x:Name="AddNewExpense" Clicked="AddNewExpense_Clicked"/>            
+            </Grid>
+            <Label  Text="Budget Categories" x:Name="BudgetCategories"  HorizontalTextAlignment ="Center" FontAttributes="Bold" />
+            <ListView x:Name ="CategoryListView"   Margin = "20"
+                      ItemSelected="CategoryListView_ItemSelected">     
                 <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:Categories">
-                            <ViewCell>
-                                <Grid>                                    
-                                   <Image Grid.Column="0" Source="{Binding Image}" HeightRequest="50" WidthRequest="30"/>
-                                   <Label Grid.Column="1"  Text="{Binding CategoryName}" />
+                            <ViewCell>                                
+                                <Grid>
+                                    <Image Grid.Column="0" Source="{Binding Image}" />
+                                    <Label Grid.Column="1"  Text="{Binding CategoryName}" />
                                    <Label Grid.Column="2"  Text="{Binding CategoryAmount}" />
-
                                     <Label Grid.Column="3"  Text="{Binding Percentage, StringFormat='\{0\}%'}"/>
-                                  
-                                   
-                                    
-                                </Grid>
+                               </Grid>
                             </ViewCell>
                         </DataTemplate>                         
                     </ListView.ItemTemplate>                    
-                </ListView>
-              
-                        
-            </Grid>
-        </StackLayout>
+                </ListView>        
+      </StackLayout>
     </ContentPage.Content>
 </ContentPage>

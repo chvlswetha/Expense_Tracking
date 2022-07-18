@@ -18,7 +18,7 @@ VerticalOptions="Start" MinimumWidthRequest="115"/>
                     <x:String>Food</x:String>
                     <x:String>Education</x:String>
                     <x:String>HomeCare</x:String>
-                    <x:String>Misc.</x:String>
+                    <x:String>Miscellaneous</x:String>
                 </Picker.Items>
             </Picker>
 

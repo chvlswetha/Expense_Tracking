@@ -6,9 +6,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="BudgetInfo" Text="Your Budget is not set. Please set the Budget for the month"/>
-
-
-            <forms:ChartView x:Name="chartViewPie" HeightRequest="200" />
+            <forms:ChartView x:Name="chartViewPie" HeightRequest="500" />
 
         </StackLayout>
     </ContentPage.Content>
