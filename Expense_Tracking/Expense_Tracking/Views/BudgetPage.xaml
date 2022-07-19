@@ -35,7 +35,7 @@
                         <DataTemplate x:DataType="model:Categories">
                             <ViewCell>                                
                                 <Grid>
-                                    <Image Grid.Column="0" Source="{Binding Image}" />
+                                    <Image Grid.Column="0" Source="{Binding Image}" HeightRequest="50" WidthRequest="50"/>
                                     <Label Grid.Column="1"  Text="{Binding CategoryName}" />
                                    <Label Grid.Column="2"  Text="{Binding CategoryAmount}" />
                                     <Label Grid.Column="3"  Text="{Binding Percentage, StringFormat='\{0\}%'}"/>

@@ -1,4 +1,5 @@
-﻿using Expense_Tracking.Models;
+﻿
+using Expense_Tracking.Models;
 using Microcharts;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,18 @@ using Entry = Microcharts.ChartEntry;
 namespace Expense_Tracking.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Analysis : ContentPage   {
-
-
-        List<Entry> entries = new List<Entry>();
-        string[] color = { "c86d8e", "cb732c", "#4cbb93", "4c8bf5", "deba19", "c71585" };
-
+    public partial class Analysis : ContentPage
+    {
 
         public Analysis()
         {
             InitializeComponent();
+        }
 
+        protected override void OnAppearing()
+        {
+            List<Entry> entries = new List<Entry>();
+            string[] color = { "c86d8e", "cb732c", "#4cbb93", "4c8bf5", "deba19", "c71585" };
             List<Expense> expenselist = new List<Expense>();
             List<Categories> categories = new List<Categories>();
             Dictionary<string, int> d = new Dictionary<string, int>();
@@ -61,16 +63,17 @@ namespace Expense_Tracking.Views
                     }); ;
                 }
             }
-            for(int i = 0; i < categories.Count; i++)
+            for (int i = 0; i < categories.Count; i++)
             {
-                entries.Add(new Entry(categories[i].CategoryAmount){ 
+                entries.Add(new Entry(categories[i].CategoryAmount)
+                {
                     Label = categories[i].CategoryName,
                     ValueLabel = categories[i].Percentage.ToString() + "%" + "  $" + categories[i].CategoryAmount.ToString(),
                     Color = SkiaSharp.SKColor.Parse(color[i]),
                     ValueLabelColor = SkiaSharp.SKColor.Parse(color[i])
                 });
             }
-            chartViewPie.Chart = new PieChart { Entries = entries, HoleRadius = 0.3f, LabelTextSize = 40};
+            chartViewPie.Chart = new PieChart { Entries = entries, HoleRadius = 0.3f, LabelTextSize = 20 };
             BudgetInfo.Text = $"Total Budget : {ExpenseManagement.TotalBudget().ToString()}" + "\n"
                 + $"Total Expense is: {ExpenseManagement.TotalExpense().ToString()}" + "\n"
                 + $"Current Balance is: {ExpenseManagement.CurrentBalance().ToString()}" + "\n";
